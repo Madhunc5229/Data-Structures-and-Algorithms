@@ -1,0 +1,3 @@
+/home/mnc/code_ws/Data-Structures-and-Algorithms/BattleShip/build/CMakeFiles/battleship.dir
+/home/mnc/code_ws/Data-Structures-and-Algorithms/BattleShip/build/CMakeFiles/edit_cache.dir
+/home/mnc/code_ws/Data-Structures-and-Algorithms/BattleShip/build/CMakeFiles/rebuild_cache.dir

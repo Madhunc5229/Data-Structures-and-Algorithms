@@ -80,7 +80,170 @@ using namespace std;
 
 //     shared_ptr<Rectangle> s_ptr1 = make_shared<Rectangle>(10,5);
 
-
 //     s_ptr2 = s_ptr2;
 //     cout<<u_ptr->getlenth();
 // }
+implement unique ptr
+template <typename T>
+class MyUniquePtr
+{
+    T *_ptr;
+
+public:
+    // default ctor
+    MyUniquePtr() : _ptr(nullptr) {}
+
+    // ctor overload
+    MyUniquePtr(T *ptr) : _ptr(ptr) {}
+
+    // delete copy ctor
+    MyUniquePtr(const MyUniquePtr &source) = delete;
+
+    // delete copy assignment operator
+    MyUniquePtr &operator=(const MyUniquePtr &source) = delete;
+
+    // define move constructor
+    MyUniquePtr(MyUniquePtr &&source)
+    {
+        this->_ptr = source->_ptr;
+        source->ptr = nullptr;
+    }
+    // overload move assignment operator
+    MyUniquePtr &operator=(const MyUniquePtr &&source)
+    {
+        this->_ptr = source->_ptr;
+        source->ptr = nullptr;
+    }
+    // overlaod * operator
+    T &operator*()
+    {
+        return *(this->_ptr);
+    }
+    ~MyUniquePtr()
+    {
+        if (_ptr != NULL)
+            delete (_ptr);
+    }
+    // //NOT WORKING
+    // T* operator->() // obtaining pointer using arrow operator
+    // {
+    //     return this->_ptr;
+    // }
+};
+
+// void checkptr()
+// {
+//     MyUniquePtr<int> ptr(new int);
+// }
+
+// int main()
+// {
+//     unique_ptr<int> ptr = make_unique<int>(new int);
+//     *ptr = 10;
+// }
+
+// Implement shared ptr
+template <typename T>
+class MySharedPtr
+{
+
+    T *_ptr;
+    int *_ref_count;
+
+public:
+    MySharedPtr() : _ptr(nullptr), _ref_count(new int(0)){}
+
+    MySharedPtr(T *ptr) : _ptr(ptr), _ref_count(new int(1)){}
+
+    MySharedPtr(const MySharedPtr &source)
+    {
+        cout<<"Copy ctor called\n";
+        this->_ptr = source._ptr;
+        this->_ref_count = source._ref_count;
+        if (source._ptr != nullptr)
+        {
+            *this->_ref_count++;
+        }
+    }
+    MySharedPtr &operator=(const MySharedPtr &source)
+    {
+        
+        this->_ptr = source->_ptr;
+        this->_ref_count = source->_ref_count;
+        if (source->_ptr != nullptr)
+        {
+            *this->_ref_count++;
+        }
+    }
+
+    MySharedPtr(const MySharedPtr &&source)
+    {
+        this->_ptr = source->_ptr;
+        this->_ref_count = source->_ref_count;
+
+        source->_ptr = nullptr;
+        source->_ref_count = nullptr;
+    }
+
+    int use_count()
+    {
+        return *_ref_count;
+    }
+
+    T *get()
+    {
+        return this->_ptr;
+    }
+
+    T &operator*()
+    {
+        return *(this->_ptr);
+    }
+
+    T *operator->()
+    {
+        return this->_ptr;
+    }
+
+    ~MySharedPtr()
+    {
+        
+		(*_ref_count)--;
+		if (*_ref_count == 0)
+		{
+			if (nullptr != _ptr)
+				delete _ptr;
+			delete _ref_count;
+		}
+	
+        // if (this->_ptr != nullptr)
+        // {
+        //     *_ref_count--;
+        //     if (*_ref_count == 0)
+        //     {
+        //         delete _ptr;
+        //         delete _ref_count;
+        //     }
+        // }
+    }
+};
+
+int main(){
+    MySharedPtr<int> sptr = MySharedPtr(new int);
+    *sptr = 10;
+    MySharedPtr<int> p  = sptr;
+    cout<<*sptr;
+}
+
+
+template<typename T>
+class Uptr{
+
+    T * _ptr;
+
+    Uptr() : _ptr(nullptr) {}
+
+    Uptr(T * ptr) : _ptr(ptr) {}
+
+
+};
