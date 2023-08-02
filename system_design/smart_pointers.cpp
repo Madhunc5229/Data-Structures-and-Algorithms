@@ -83,7 +83,7 @@ using namespace std;
 //     s_ptr2 = s_ptr2;
 //     cout<<u_ptr->getlenth();
 // }
-implement unique ptr
+// implement unique ptr
 template <typename T>
 class MyUniquePtr
 {
